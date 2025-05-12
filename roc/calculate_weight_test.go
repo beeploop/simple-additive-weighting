@@ -9,56 +9,58 @@ import (
 
 func TestCalculateROC(t *testing.T) {
 	tests := []struct {
-		criteria  Criteria
+		input     string
 		criterion []Criteria
 		expected  float64
 	}{
 		{
-			criteria: Criteria{Title: "price", Rank: 1},
+			input: "price",
 			criterion: []Criteria{
 				{Title: "price", Rank: 1},
 				{Title: "rating", Rank: 2},
 				{Title: "distance", Rank: 3},
-				{Title: "completed bookings", Rank: 4},
+				{Title: "completed_bookings", Rank: 4},
 			},
 			expected: 0.521,
 		},
 		{
-			criteria: Criteria{Title: "rating", Rank: 2},
+			input: "rating",
 			criterion: []Criteria{
 				{Title: "price", Rank: 1},
 				{Title: "rating", Rank: 2},
 				{Title: "distance", Rank: 3},
-				{Title: "completed bookings", Rank: 4},
+				{Title: "completed_bookings", Rank: 4},
 			},
 			expected: 0.27,
 		},
 		{
-			criteria: Criteria{Title: "distance", Rank: 3},
+			input: "distance",
 			criterion: []Criteria{
 				{Title: "price", Rank: 1},
 				{Title: "rating", Rank: 2},
 				{Title: "distance", Rank: 3},
-				{Title: "completed bookings", Rank: 4},
+				{Title: "completed_bookings", Rank: 4},
 			},
 			expected: 0.145,
 		},
 		{
-			criteria: Criteria{Title: "completed bookings", Rank: 4},
+			input: "completed_bookings",
 			criterion: []Criteria{
 				{Title: "price", Rank: 1},
 				{Title: "rating", Rank: 2},
 				{Title: "distance", Rank: 3},
-				{Title: "completed bookings", Rank: 4},
+				{Title: "completed_bookings", Rank: 4},
 			},
 			expected: 0.0625,
 		},
 	}
 
 	for _, test := range tests {
-		score := CalculateWeight(test.criteria, test.criterion)
+		r := NewRankOrderCentroid(test.criterion)
 
-		approximatelyEqual := utils.ApproximateEqual(test.expected, score)
-		assert.True(t, approximatelyEqual, "expected: %v , got: %v", test.expected, score)
+		weight := r.CalculateWeightOf(test.input)
+
+		approximatelyEqual := utils.ApproximateEqual(test.expected, weight)
+		assert.True(t, approximatelyEqual, "expected: %v , got: %v", test.expected, weight)
 	}
 }
