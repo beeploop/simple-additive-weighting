@@ -1,7 +1,11 @@
 package utils
 
-import "math"
+import (
+	"math"
 
-func ApproximateEqual(a, b, epsilon float64) bool {
-	return math.Abs(a-b) < epsilon
+	"github.com/beeploop/simple-additive-weighting/internal/constants"
+)
+
+func ApproximateEqual(a, b float64) bool {
+	return math.Abs(a-b) < constants.Epsilon
 }

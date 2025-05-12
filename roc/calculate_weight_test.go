@@ -8,8 +8,6 @@ import (
 )
 
 func TestCalculateROC(t *testing.T) {
-	epsilon := 0.001
-
 	tests := []struct {
 		criteria  Criteria
 		criterion []Criteria
@@ -60,7 +58,7 @@ func TestCalculateROC(t *testing.T) {
 	for _, test := range tests {
 		score := CalculateWeight(test.criteria, test.criterion)
 
-		approximatelyEqual := utils.ApproximateEqual(test.expected, score, epsilon)
-		assert.True(t, approximatelyEqual, "expected %v == %v", test.expected, score)
+		approximatelyEqual := utils.ApproximateEqual(test.expected, score)
+		assert.True(t, approximatelyEqual, "expected: %v , got: %v", test.expected, score)
 	}
 }
