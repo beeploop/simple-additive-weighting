@@ -32,6 +32,13 @@ func TestNormalizer(t *testing.T) {
 				},
 				expected: 0.5,
 			},
+			{
+				input: 0,
+				criterion: []Criteria{
+					{Title: "distance", Value: 0},
+				},
+				expected: 1,
+			},
 		}
 
 		for _, test := range tests {
@@ -67,6 +74,24 @@ func TestNormalizer(t *testing.T) {
 					{Title: "completed_bookings", Value: 50},
 				},
 				expected: 0.6,
+			},
+			{
+				input: 1,
+				criterion: []Criteria{
+					{Title: "completed_bookings", Value: 1},
+					{Title: "completed_bookings", Value: 1},
+					{Title: "completed_bookings", Value: 1},
+				},
+				expected: 1.0,
+			},
+			{
+				input: 0,
+				criterion: []Criteria{
+					{Title: "completed_bookings", Value: 0},
+					{Title: "completed_bookings", Value: 1},
+					{Title: "completed_bookings", Value: 0},
+				},
+				expected: 0.0,
 			},
 		}
 

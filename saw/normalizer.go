@@ -9,12 +9,20 @@ func NewNormalizer() *normalizer {
 }
 
 func (n *normalizer) NormalizeCost(value float64, otherValues []Criteria) float64 {
+	if value == 0 {
+		return 1
+	}
+
 	minValue := n.getMin(otherValues)
 	return minValue / value
 }
 
 func (n *normalizer) NormalizeBenefit(value float64, otherValues []Criteria) float64 {
 	maxValue := n.getMax(otherValues)
+	if maxValue == 0 {
+		return 1
+	}
+
 	return value / maxValue
 }
 
